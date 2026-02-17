@@ -1,0 +1,49 @@
+<svg width="1920" height="1080" xmlns="http://www.w3.org/2000/svg">
+<rect x="200" y="50" width="200" height="370" style="fill:none;stroke:black;stroke-width:2"/>
+<text x="300.0" y="235.0" text-anchor="middle" dominant-baseline="middle" font-size="16" font-weight="bold">counter</text>
+<line x1="120" y1="80" x2="200" y2="80" style="stroke:black;stroke-width:2"/>
+<polygon points="200,80 192,75 192,85" style="fill:black"/>
+<text x="115" y="80" text-anchor="end" dominant-baseline="middle">clk</text>
+<line x1="120" y1="110" x2="200" y2="110" style="stroke:black;stroke-width:2"/>
+<polygon points="200,110 192,105 192,115" style="fill:black"/>
+<text x="115" y="110" text-anchor="end" dominant-baseline="middle">rst_n</text>
+<line x1="120" y1="140" x2="200" y2="140" style="stroke:black;stroke-width:2"/>
+<polygon points="200,140 192,135 192,145" style="fill:black"/>
+<text x="115" y="140" text-anchor="end" dominant-baseline="middle">en</text>
+<line x1="120" y1="170" x2="200" y2="170" style="stroke:black;stroke-width:2"/>
+<polygon points="200,170 192,165 192,175" style="fill:black"/>
+<text x="115" y="170" text-anchor="end" dominant-baseline="middle">clr</text>
+<line x1="120" y1="200" x2="200" y2="200" style="stroke:black;stroke-width:2"/>
+<polygon points="200,200 192,195 192,205" style="fill:black"/>
+<text x="115" y="200" text-anchor="end" dominant-baseline="middle">up</text>
+<line x1="120" y1="230" x2="200" y2="230" style="stroke:black;stroke-width:2"/>
+<polygon points="200,230 192,225 192,235" style="fill:black"/>
+<text x="115" y="230" text-anchor="end" dominant-baseline="middle">a</text>
+<line x1="120" y1="260" x2="200" y2="260" style="stroke:black;stroke-width:2"/>
+<polygon points="200,260 192,255 192,265" style="fill:black"/>
+<text x="115" y="260" text-anchor="end" dominant-baseline="middle">b</text>
+<line x1="120" y1="290" x2="200" y2="290" style="stroke:black;stroke-width:2"/>
+<polygon points="200,290 192,285 192,295" style="fill:black"/>
+<text x="115" y="290" text-anchor="end" dominant-baseline="middle">c</text>
+<line x1="120" y1="320" x2="200" y2="320" style="stroke:black;stroke-width:2"/>
+<polygon points="200,320 192,315 192,325" style="fill:black"/>
+<text x="115" y="320" text-anchor="end" dominant-baseline="middle">d</text>
+<line x1="120" y1="350" x2="200" y2="350" style="stroke:black;stroke-width:2"/>
+<polygon points="200,350 192,345 192,355" style="fill:black"/>
+<text x="115" y="350" text-anchor="end" dominant-baseline="middle">e</text>
+<line x1="120" y1="380" x2="200" y2="380" style="stroke:black;stroke-width:2"/>
+<polygon points="200,380 192,375 192,385" style="fill:black"/>
+<text x="115" y="380" text-anchor="end" dominant-baseline="middle">f</text>
+<line x1="400" y1="80" x2="480" y2="80" style="stroke:black;stroke-width:2"/>
+<polygon points="480,80 472,75 472,85" style="fill:black"/>
+<text x="485" y="80" dominant-baseline="middle">count[4:0]</text>
+<line x1="400" y1="110" x2="480" y2="110" style="stroke:black;stroke-width:2"/>
+<polygon points="480,110 472,105 472,115" style="fill:black"/>
+<text x="485" y="110" dominant-baseline="middle">overflow</text>
+<line x1="400" y1="140" x2="480" y2="140" style="stroke:black;stroke-width:2"/>
+<polygon points="480,140 472,135 472,145" style="fill:black"/>
+<text x="485" y="140" dominant-baseline="middle">underflow</text>
+<line x1="400" y1="170" x2="480" y2="170" style="stroke:black;stroke-width:2"/>
+<polygon points="480,170 472,165 472,175" style="fill:black"/>
+<text x="485" y="170" dominant-baseline="middle">error</text>
+</svg>

@@ -6,14 +6,13 @@ def parse_verilog_module(filepath):
     text = Path(filepath).read_text()
 
     # Collapse multiline parameter/port lists
-    text = re.sub(r"\s+", " ", text)
-
+    text = re.sub(r"//.*", " ", text)
     # ----- Extract module header -----
     module_regex = re.compile(
         r"module\s+(\w+)\s*"
         r"(#\s*\((.*?)\))?\s*"        # parameters (optional)
         r"\((.*?)\)\s*;",             # ports
-        re.IGNORECASE
+        re.IGNORECASE | re.DOTALL
     )
 
     m = module_regex.search(text)
@@ -23,6 +22,7 @@ def parse_verilog_module(filepath):
     module_name = m.group(1)
     raw_params = m.group(3) or ""
     raw_ports = m.group(4)
+    print (raw_ports)
 
     # ----- Parse parameters -----
     params = []
@@ -39,7 +39,19 @@ def parse_verilog_module(filepath):
         p = p.strip()
 
         # direction, width, name
-        pm = re.match(r"(input logic|output logic|inout logic)?\s*(\[[^\]]+\])?\s*(\w+)", p)
+        pm = re.match(
+             r"(input|output|inout)\b"
+             r"(?:\s+(?:"
+               r"(?:wire\s*(?:\[[^\]]*\]\s*)*)"      
+               r"|"
+               r"(?:(?:wire\s+)?(?:\[[^\]]*\]\s*)*logic\b(?:\s*(?:\[[^\]]*\])*)?)"
+             r"))?"
+             r"\s*(\[[^\]]+\])?\s*(\w+)",
+             p
+             ) 
+
+        #re.match(r"(input |output |inout)\b(?:\s+logic\b)?\s*(\[[^\]]+\])?\s*(\w+)", p)
+
         if pm:
             direction, width, name = pm.groups()
             ports.append((direction, width, name))
