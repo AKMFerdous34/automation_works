@@ -2,6 +2,7 @@ import re
 from pathlib import Path
 import readline
 import glob
+import sys
 
 # Generates a basic testbench that runs clk at 100MHz and starts a basic init
 # test
@@ -10,8 +11,21 @@ import glob
 
 # Enable tab completion for file names within the current directory
 def complete_path(text, state):
-    matches = glob.glob(text + '*')
+    expanded = os.path.expanduser(os.path.expandvars(text))
+
+    matches = glob.glob(expanded + '*')
+
+    # restore original typed prefix rather than expanded path
+    matches = [
+        os.path.join(text, os.path.basename(m)) if not m.startswith(text) else m
+        for m in matches
+    ]
+
     return matches[state] if state < len(matches) else None
+    
+
+    #matches = glob.glob(text + '*')
+    #    return matches[state] if state < len(matches) else None
 
 def read_file (file_name):
     '''
@@ -28,8 +42,8 @@ def read_file (file_name):
         # Using regex to detect various patterns
         clock_detect = re.search(r"\b[a-zA-Z_]*clk[a-zA-Z0-9_]*\b", line) # clk
         module_name_detect = re.search(r"module\s+([^\s(]+)",line) # module name
-        input_detect = re.search(r"\binput\b(?:\s+logic\b)?\s+(\[[^\]]+\]\s*[A-Za-z_][A-Za-z0-9_]*|[A-Za-z_][A-Za-z0-9_]*)\b(?=[\s,;]|//|$)",line)#r"input\s*(.*)",line) # inputs
-        output_detect = re.search(r"\boutput\b(?:\s+logic\b)?\s+(\[[^\]]+\]\s*[A-Za-z_][A-Za-z0-9_]*|[A-Za-z_][A-Za-z0-9_]*)\b(?=[\s,;]|//|$)",line) # outputs
+        input_detect = re.search(r"\binput\b(?:\s+(?:logic|wire|reg)\b)?\s+(\[[^\]]+\]\s*[A-Za-z_][A-Za-z0-9_]*|[A-Za-z_][A-Za-z0-9_]*)\b(?=[\s,;]|//|$)",line)#r"input\s*(.*)",line) # inputs
+        output_detect = re.search(r"\boutput\b(?:\s+(?:logic|wire|reg)\b)?\s+(\[[^\]]+\]\s*[A-Za-z_][A-Za-z0-9_]*|[A-Za-z_][A-Za-z0-9_]*)\b(?=[\s,;]|//|$)",line) # outputs
         
         # append everything to the lists to be used later in the generation of tb
         if (input_detect):
@@ -89,15 +103,24 @@ def reset_init_seq (input_names,module_name,clk):
         for init_var in input_names:
             file.write("    "+init_var + " <= 'b0;\n")
 
-        file.write("    @(posedge " + clk +");\n    $finish;\n  end\n\nendmodule")
+        file.write(
+                   f"    @(posedge " + clk +");"
+                   f"\n    // rst_n <= 1'b1;"
+                   f"\n    repeat (20) @(posedge " + clk +");"
+                   f"\n    $finish;"
+                   f"\n  end"
+                   f"\n\nendmodule"
+                  )
 
 
 
 # MAIN PROGRAM:
 if __name__ == "__main__":
-  readline.set_completer(complete_path)
-  readline.parse_and_bind("tab: complete")
-  file_path = Path(input("enter file path and name: \n"))
+    #readline.set_completer_delims(' \t\n"\'`@$><=;|&{(')
+  #readline.set_completer(complete_path)
+  #readline.parse_and_bind("tab: complete")
+  #file_path = Path(input("enter file path and name: \n"))
+  file_path = sys.argv[1]
   inputs_vec,inputs,outputs_vec,outputs,module_name,clk_name = read_file (file_path)
   setup_io(inputs_vec,outputs_vec,module_name)
   setup_clock(module_name,5,clk_name)
